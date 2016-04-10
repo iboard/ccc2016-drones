@@ -1,5 +1,6 @@
 package drone.setup;
 
+import java.text.DecimalFormat;
 import java.util.logging.Level;
 
 public class DroneConfig {
@@ -12,8 +13,11 @@ public class DroneConfig {
      * Setup the log level to one of <code>Level.*</code>
      * @return the level used at runtime
      */
-    public static Level logLevel() { return LEVEL; }
+    static Level logLevel() { return LEVEL; }
 
+    // FORMAT
+
+    public static final DecimalFormat decimalFormat = new DecimalFormat("#.###");
 
     // PHYSICS
     private static final double GRAVITY_CONSTANT = 0.98/5500;
