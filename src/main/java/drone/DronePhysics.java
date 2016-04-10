@@ -2,6 +2,9 @@ package drone;
 
 import drone.exceptions.Crashed;
 import drone.setup.DroneConfig;
+import drone.setup.DroneLogger;
+
+import java.util.logging.Level;
 
 /**
  * DronePhysics are responsible for
@@ -59,6 +62,14 @@ public class DronePhysics {
         double newX = currentX + drone.getXRotation();
         double newY = currentY + drone.getYRotation();
         double newZ = currentZ + 1 * drone.getThrottle();
+        DroneLogger.log( Level.INFO, "MOVE DRONE " +
+                drone.id() +
+                "X(c/t)=" + drone.getX() + "/" + drone.getTargetX() + ", " +
+                "Y(c/t)=" + drone.getY() + "/" + drone.getTargetY() + ", " +
+                "Z(c/t)=" + drone.getZ() + "/" + drone.getTargetZ() + ", " +
+                "Rx=" + drone.getRx() + ", " +
+                "Ry=" + drone.getRy() + "."
+        );
         drone.setX(newX);
         drone.setY(newY);
         drone.setZ(newZ);
