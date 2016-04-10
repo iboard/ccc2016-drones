@@ -43,6 +43,20 @@ public class DronePhysics {
         adjustRotation( drone, drone.getTargetX(), drone.getTargetY());
         adjustThrottle( drone, drone.getTargetX(), drone.getTargetY(), drone.getTargetZ() );
         moveDrone(drone );
+    }
+
+    private void moveDrone(Drone drone){
+        double newX = drone.getX() + drone.getXRotation();
+        double newY = drone.getY() + drone.getYRotation();
+        double newZ = drone.getZ() + drone.getThrottle();
+        DroneLogger.log( Level.INFO, String.format(
+                "MOVE DRONE %dX(c/n)=%s/%s, Y(c/t)=%s/%s, Z(c/t)=%s/%s, Rx=%s, Ry=%s.",
+                drone.id(), drone.getX(), drone.getTargetX(),
+                drone.getY(), drone.getTargetY(),
+                drone.getZ(), drone.getTargetZ(),
+                drone.getRx(), drone.getRy() )
+        );
+        drone.setPosition(newX, newY, newZ);
         applyGravity(drone);
     }
 
@@ -53,26 +67,6 @@ public class DronePhysics {
         if(newZ < 0.0 && drone.getThrottle() > 0.0)
             throw new Crashed(drone);
         drone.setZ(Math.max(0.0, newZ));
-    }
-
-    private void moveDrone(Drone drone){
-        double currentX = drone.getX();
-        double currentY = drone.getY();
-        double currentZ = drone.getZ();
-        double newX = currentX + drone.getXRotation();
-        double newY = currentY + drone.getYRotation();
-        double newZ = currentZ + 1 * drone.getThrottle();
-        DroneLogger.log( Level.INFO, "MOVE DRONE " +
-                drone.id() +
-                "X(c/t)=" + drone.getX() + "/" + drone.getTargetX() + ", " +
-                "Y(c/t)=" + drone.getY() + "/" + drone.getTargetY() + ", " +
-                "Z(c/t)=" + drone.getZ() + "/" + drone.getTargetZ() + ", " +
-                "Rx=" + drone.getRx() + ", " +
-                "Ry=" + drone.getRy() + "."
-        );
-        drone.setX(newX);
-        drone.setY(newY);
-        drone.setZ(newZ);
     }
 
     private void adjustThrottle(Drone drone, double _x, double _y, double z){

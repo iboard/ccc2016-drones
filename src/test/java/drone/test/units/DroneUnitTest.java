@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
 public class DroneUnitTest {
 
     private Drone drone;
-    private DronePhysics physics = new DronePhysics();
+    private final DronePhysics physics = new DronePhysics();
 
     @BeforeMethod
     public void setUp() {

@@ -59,13 +59,14 @@ public class Drone {
 
     /**
      * Initialize a Drone with an Id and DronePhysics
-     * @param id - The unique id of this drone
+     *
+     * @param id      - The unique id of this drone
      * @param physics - the physics used to calculate actions
      */
-    public Drone(int id, DronePhysics physics) {
+    public Drone(int id, DronePhysics physics){
         this.id = id;
         this.physics = physics;
-        this.setTarget( 0,0,0 );
+        this.setTarget( 0, 0, 0 );
         this.setThrottle( 0.0 );
     }
 
@@ -83,7 +84,9 @@ public class Drone {
         return z;
     }
 
-    public void setZ(double z){ this.z = z; }
+    public void setZ(double z){
+        this.z = z;
+    }
 
     public double getThrottle(){
         return throttle;
@@ -130,41 +133,50 @@ public class Drone {
 
     /**
      * PUBLIC API - Execute n ticks, using Drone's physics
+     *
      * @param i - Number of ticks to be executed.
      */
     public void tick(int i){
-        physics.tick(this, i);
+        physics.tick( this, i );
     }
 
     /**
      * Fly to the given coordinates and stay within this place.
+     *
      * @param x - X-position to reach
      * @param y - Y-position to reach
      * @param z - Z-position to reach
      */
     public void hoverAt(double x, double y, double z){
-        setTarget(x,y,z);
+        setTarget( x, y, z );
     }
 
     /**
      * PUBLIC API (Command) – Land The Damn Thing. <em>Will crash (throw Crashed-exception) if not clear to land</em>
      */
     public void land(){
-      if( isClearToLand() ) {
-          setZ( 0.0 );
-          setTarget( 0,0,0 );
-          setThrottle( 0.0 );
-      }
-      else
-        crash();
+        if (isClearToLand()) {
+            setZ( 0.0 );
+            setTarget( getX(), getY(), 0 );
+            setThrottle( 0.0 );
+        } else
+            crash();
     }
 
     /**
      * PUBLIC API (Status)
+     *
      * @return true if z-position is 0.0 and throttle is off
      */
     public boolean isLanded(){
         return getZ() == 0.0 && getThrottle() == 0.0;
+    }
+
+
+    public void setPosition(double newX, double newY, double newZ) {
+        setX(newX);
+        setY(newY);
+        setZ(newZ);
     }
 
 
@@ -200,5 +212,13 @@ public class Drone {
     }
     public void setY(double y){ this.y = y; }
     public void setX(double x){ this.x = x; }
+
+    public void setState(double x, double y, double z, double throttle){
+        this.setX(x);
+        this.setY(y);
+        this.setZ(z);
+        this.setThrottle(throttle);
+
+    }
 }
 
