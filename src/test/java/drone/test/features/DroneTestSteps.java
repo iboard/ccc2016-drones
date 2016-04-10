@@ -4,7 +4,7 @@ import cucumber.api.java8.En;
 import drone.Drone;
 import drone.DronePhysics;
 import drone.exceptions.Crashed;
-import drone.logger.DroneLogger;
+import drone.setup.DroneLogger;
 
 import java.text.DecimalFormat;
 import java.util.logging.Level;
@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import static org.junit.Assert.assertTrue;
 
 
-@SuppressWarnings("unused,WeakerAccess")
+@SuppressWarnings({"unused,WeakerAccess", "unused"})
 public class DroneTestSteps implements En {
 
     private Drone subject;
@@ -57,7 +57,7 @@ public class DroneTestSteps implements En {
             assertTrue( decimalFormat.format( z ) + " in range " + expectedMin + " and " + expectedMax, expectedMin <= z && z <= expectedMax );
         } );
         When( "^Tell drone (\\d+) to hover at (\\d+),(\\d+),(\\d+)\\.(\\d+)$", (Integer drone, Integer x, Integer y, Integer z1, Integer zd) -> {
-           subject.setTarget(x,y, z1 + zd/10.0);
+           subject.hoverAt(x,y, z1*1.0 + zd/10.0);
         } );
         Given( "^A flying drone with id (\\d+) at (\\d+), (\\d+), (\\d+) \\(x,y,z\\)$", (Integer droneId, Integer x, Integer y, Integer z) -> {
             subject = new Drone(droneId,new DronePhysics());
@@ -83,15 +83,15 @@ public class DroneTestSteps implements En {
     }
 
     private void logDroneStatus(Drone subject){
-        StringBuilder msg = new StringBuilder( "DRONE" ).append( ": " )
-                .append( subject.id() ).append( " Position: " )
-                .append( "X:" ).append( decimalFormat.format(subject.getX())).append( " | " )
-                .append( "Y:" ).append( decimalFormat.format(subject.getY())).append( " | " )
-                .append( "Z:" ).append( decimalFormat.format(subject.getZ())).append( " | " )
-                .append( "Status: ")
-                .append( "throttle:" ).append( decimalFormat.format(subject.getThrotle()));
+        String msg = "DRONE" + ": " +
+                subject.id() + " Position: " +
+                "X:" + decimalFormat.format( subject.getX() ) + " | " +
+                "Y:" + decimalFormat.format( subject.getY() ) + " | " +
+                "Z:" + decimalFormat.format( subject.getZ() ) + " | " +
+                "Status: " +
+                "throttle:" + decimalFormat.format( subject.getThrottle() );
 
-        DroneLogger.log(Level.INFO, getClass().getSimpleName(), msg.toString() );
+        DroneLogger.log(Level.INFO, getClass().getSimpleName(), msg );
 
     }
 }

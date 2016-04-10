@@ -3,7 +3,7 @@ package drone.exceptions;
 import drone.Drone;
 
 /**
- * Thrown when medication.execute would cause an overdose
+ * Thrown when a Drone lands from above 0.5
  */
 public class Crashed extends RuntimeException {
     private final Drone drone;
@@ -14,7 +14,7 @@ public class Crashed extends RuntimeException {
 
     @Override
     public String getMessage() {
-        return "Drone crashed " + drone.id() + " from z=" + drone.getZ() + " with thdrottle " + drone.getThrotle();
+        return "Drone crashed " + drone.id() + " from z=" + drone.getZ() + " with throttle " + drone.getThrottle();
     }
 
 }
