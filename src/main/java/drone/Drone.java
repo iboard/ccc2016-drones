@@ -41,20 +41,21 @@ public class Drone {
     private final DronePhysics physics;
 
     // Current Position
-    private final double x = 0;
-    private final double y = 0;
+    private double x = 0;
+    private double y = 0;
     private double z = 0;
     private double throttle = 0.0;
 
     // Current Rotation
-    private final double rx = 0;
-    private final double ry = 0;
+    private double rx = 0;
+    private double ry = 0;
     private final double rz = 0;
 
     // Active Target
     private double targetX = 0.0;
     private double targetY = 0.0;
     private double targetZ = 0.0;
+    private double XRotation;
 
     /**
      * Initialize a Drone with an Id and DronePhysics
@@ -182,5 +183,22 @@ public class Drone {
     private boolean isClearToLand(){
         return getZ() < CLEAR_TO_LAND_HEIGHT;
     }
+
+    public void turnLeft(){ setRx( -1.0 ); }
+    public void turnRight(){ setRx(  1.0 ); }
+    public void turnFront(){ setRy( -1.0 ); }
+    public void turnBack(){ setRy( 1.0 ); }
+    private void setRx(double rx){ this.rx = rx; }
+    private void setRy(double ry){ this.ry = ry; }
+    public void centerX(){ setRx(0.0); }
+    public void centerY(){ setRy(0.0); }
+    public double getXRotation(){
+        return 0.1 * getRx();
+    }
+    public double getYRotation(){
+        return 0.1 * getRy();
+    }
+    public void setY(double y){ this.y = y; }
+    public void setX(double x){ this.x = x; }
 }
 

@@ -24,19 +24,24 @@ public class DronePhysics {
 
 
     /**
-     * PUBLIC API – Execute given number of ticks on a given drone
+     * PUBLIC API – Execute given number of ticks on a given drone. Rotation and Throttle will
+     * be adjusted on after each tick.
+     *
      * @param drone id of the drone to be ticked.
      * @param ticks number of ticks to be executed
      */
     public void tick(Drone drone, int ticks){
-        for (int i = 0; i < ticks; i++) {
-            adjustThrottle( drone, drone.getTargetX(), drone.getTargetY(), drone.getTargetZ() );
-            moveDrone(drone );
-            applyGravity(drone);
-        }
+        for (int i = 0; i < ticks; i++) flyForOneTick( drone );
     }
 
     // Private methods
+
+    private void flyForOneTick(Drone drone){
+        adjustRotation( drone, drone.getTargetX(), drone.getTargetY());
+        adjustThrottle( drone, drone.getTargetX(), drone.getTargetY(), drone.getTargetZ() );
+        moveDrone(drone );
+        applyGravity(drone);
+    }
 
     private void applyGravity(Drone drone){
         double oldZ = drone.getZ();
@@ -48,8 +53,14 @@ public class DronePhysics {
     }
 
     private void moveDrone(Drone drone){
-        double oldZ = drone.getZ();
-        double newZ = oldZ + 1 *drone.getThrottle();
+        double currentX = drone.getX();
+        double currentY = drone.getY();
+        double currentZ = drone.getZ();
+        double newX = currentX + drone.getXRotation();
+        double newY = currentY + drone.getYRotation();
+        double newZ = currentZ + 1 * drone.getThrottle();
+        drone.setX(newX);
+        drone.setY(newY);
         drone.setZ(newZ);
     }
 
@@ -63,4 +74,31 @@ public class DronePhysics {
         else
             drone.setThrottle( Drone.DOWN_THROTTLE );
     }
+
+    private void adjustRotation(Drone drone, double targetX, double targetY){
+        double currentX = drone.getX();
+        double currentY = drone.getY();
+
+        adjustXAxis( drone, targetX, currentX );
+        adjustYAxis( drone, targetY, currentY );
+    }
+
+    private void adjustYAxis(Drone drone, double targetY, double currentY){
+        if(targetY < currentY)
+            drone.turnFront();
+        else if (targetY > currentY)
+            drone.turnBack();
+        else
+            drone.centerY();
+    }
+
+    private void adjustXAxis(Drone drone, double targetX, double currentX){
+        if(targetX < currentX)
+            drone.turnLeft();
+        else if (targetX > currentX)
+            drone.turnRight();
+        else
+            drone.centerX();
+    }
+
 }

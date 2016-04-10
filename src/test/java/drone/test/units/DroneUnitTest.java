@@ -95,12 +95,18 @@ public class DroneUnitTest {
     @Test
     public void land() {
         drone.hoverAt( 0,0,0.3 );
-        drone.tick( 10 );
+        drone.tick( 20 );
         drone.land();
         drone.tick( 1 );
         assertTrue( "Drone should be landed", drone.isLanded());
     }
 
+    @Test
+    public void rotate() {
+       drone.hoverAt( 8,9,10 );
+        drone.tick( 1000 );
+        assertPosition( drone, 8.00,9.00,10.03, "rotate" );
+    }
 
     // Local Helpers
 
