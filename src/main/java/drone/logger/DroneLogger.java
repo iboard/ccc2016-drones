@@ -7,27 +7,29 @@ import java.util.logging.Logger;
 
 public class DroneLogger {
 
-    private static Level LOGLEVEL = Level.INFO;
+    private static Level LOGLEVEL = Level.WARNING;
 
     private static DroneLogger droneLogger = new DroneLogger();
 
     private static Logger logger;
-    private static ConsoleHandler consoleHandler;
     public static DroneLogger getInstance( ) {
         return droneLogger;
     }
     
     private DroneLogger() {
-        logger = Logger.getLogger(DroneLogger.class.getName());
-        consoleHandler =  new ConsoleHandler();
         System.setProperty( "java.util.logging.SimpleFormatter.format",
-                "%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS %4$-6s %2$s %n\n" );
+                "%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS %4$-6s %2$s %5$s%n" );
         System.setProperty( "java.util.logging.ConsoleHandler.formatter",
                 "java.util.logging.SimpleFormatter" );
+
+        logger = Logger.getLogger(DroneLogger.class.getName());
         logger.setLevel(LOGLEVEL);
-        logger.addHandler(consoleHandler);
+        logger.addHandler(new ConsoleHandler());
     }
 
+    public static void log(Level l, String prefix, String message){
+        getInstance().log(l,prefix + ": " + message);
+    }
     public static void log(Level l, String message) {
         getInstance().getLogger().log(l,message);
     }

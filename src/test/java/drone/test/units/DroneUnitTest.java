@@ -90,7 +90,7 @@ public class DroneUnitTest {
     }
 
     private void assertPosition(Drone drone, double x, double y, double z, String prefix){
-        DroneLogger.log( Level.INFO, prefix + ": Expected/Actual x,y,z  0/0, 0/0, " + z + "/" + decimalFormat.format(drone.getZ()) );
+        DroneLogger.log( Level.INFO, prefix , "Expected/Actual x,y,z  0/0, 0/0, " + z + "/" + decimalFormat.format(drone.getZ()) );
 
         Assert.assertEquals( Math.round(drone.getX()*100)/100.0, x );
         Assert.assertEquals( Math.round(drone.getY()*100)/100.0, y );

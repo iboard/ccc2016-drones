@@ -91,7 +91,7 @@ public class DroneTestSteps implements En {
                 .append( "Status: ")
                 .append( "throttle:" ).append( decimalFormat.format(subject.getThrotle()));
 
-        DroneLogger.log(Level.INFO, msg.toString() );
+        DroneLogger.log(Level.INFO, getClass().getSimpleName(), msg.toString() );
 
     }
 }
