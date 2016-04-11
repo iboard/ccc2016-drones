@@ -9,7 +9,7 @@ Quickstart
 Clone the repo from github and run the tests. Unit and Cucumber-tests.
 
     git clone git://github.com/iboard/ccc2016-drones.git
-    mnv test
+    mvn test
 
 
 Documentation
